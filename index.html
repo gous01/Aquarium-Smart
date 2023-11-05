@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- 
+        primary meta tags
+     -->
+    <title>AQUARIUM Smart</title>
+    <meta name="title" content="AQUARIUM smart" />
+
+    <!-- gg font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- main css -->
+    <link rel="stylesheet" href="./css/main.css" />
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"
+      integrity="sha512-k8WL9L2jG8KyG3pCJA4mHMdg2YSoWrdB5QNqLIhROv69udwp87WvbqzbsiAL65wy7T9jHU7rAoePr1ToPBc0Lw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- js -->
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  </head>
+
+  <body>
+    <label class="switch1">
+      <input type="checkbox" onclick="toggleSwitch1()" />
+      <span class="slider1 round"></span>
+    </label>
+    <label class="switch2">
+      <input type="checkbox" onclick="toggleSwitch2()" />
+      <span class="slider2 round"></span>
+    </label>
+    <label class="switch3">
+      <input type="checkbox" onclick="toggleSwitch3()" />
+      <span class="slider3 round"></span>
+    </label>
+    <label class="switch4">
+      <input type="checkbox" onclick="toggleSwitch4()" />
+      <span class="slider4 round"></span>
+    </label>
+    <label class="switch5">
+      <input type="checkbox" id="toggle5" onclick="toggleSwitch5()" />
+      <span class="slider5 round"></span>
+    </label>
+    <label class="switch6">
+      <input type="checkbox" id="toggle6" onclick="toggleSwitch6()" />
+      <span class="slider6 round"></span>
+    </label>
+    <div class="timer1" id="timer1">00:10</div>
+    <div class="timer2" id="timer2">00:20</div>
+    <div class="BoxLight"></div>
+    <div class="BoxWater"></div>
+    <div class="BoxWarning"></div>
+    <div class="BoxEat"></div>
+    <div class="BoxSensor"></div>
+    <div class="BoxOxygen"></div>
+    <div class="BoxTS"></div>
+    <div class="BoxFood"></div>
+    <div class="BoxTP"></div>
+    <div class="BoxTimer"></div>
+    <div class="BoxClock"></div>
+    <div class="BoxFan"></div>
+    <div class="BoxPumpIn"></div>
+    <div class="line1"></div>
+    <div class="line2"></div>
+    <div class="line3"></div>
+    <div class="line4"></div>
+    <div class="line5"></div>
+    <div class="line6"></div>
+    <div class="line7"></div>
+    <div class="line8"></div>
+    <div class="line9"></div>
+    <!-- Thêm phần tử hiển thị cảnh báo độ duc và trạng thái nhiệt độ -->
+    <div id="turbidityStatus"></div>
+    <div class="turbidity-pointer" id="turbidity-pointer"></div>
+    <div id="temperatureStatus"></div>
+    <p class="TextTieuDe">Aquarium Smart</p>
+    <p class="TextLighting">Lighting</p>
+    <p class="TextFoodintake">Food intake control</p>
+    <p class="TextWater">M/A water</p>
+    <p class="TextOxygen">Oxygen</p>
+    <p class="TextFeeding">Feeding</p>
+    <p class="TextFoodcapacity">Food capacity</p>
+    <p class="FeedTimer">timer</p>
+    <p id="nhietdo"></p>
+    <p id="doduc"></p>
+    <div class="water-tank">
+      <div class="liquid">
+        <svg class="water" viewBox="0 0 200 100">
+          <defs>
+            <linearGradient
+              id="waterGradient"
+              x1="0%"
+              y1="0%"
+              x2="0%"
+              y2="100%"
+            >
+              <stop offset="0" style="stop-color: #29abe2" />
+              <stop offset="0.1643" style="stop-color: #28a6e3" />
+              <stop offset="0.3574" style="stop-color: #2496e6" />
+              <stop offset="0.5431" style="stop-color: #1e7dea" />
+              <stop offset="0.7168" style="stop-color: #1559f0" />
+              <stop offset="0.874" style="stop-color: #0b2cf7" />
+              <stop offset="1" style="stop-color: #0000ff" />
+            </linearGradient>
+          </defs>
+          <path
+            fill="url(#waterGradient)"
+            d="
+            M 0,0 v 100 h 200 v -100 
+            c -10,0 -15,5 -25,5 c -10,0 -15,-5 -25,-5
+            c -10,0 -15,5 -25,5 c -10,0 -15,-5 -25,-5
+            c -10,0 -15,5 -25,5 c -10,0 -15,-5 -25,-5
+            c -10,0 -15,5 -25,5 c -10,0 -15,-5 -25,-5
+          "
+          />
+        </svg>
+      </div>
+      <div class="indicator" data-value="75"></div>
+      <div class="indicator" data-value="50"></div>
+      <div class="indicator" data-value="25"></div>
+      <div id="hc2"></div>
+    </div>
+    <div id="hc1Show"></div>
+    <div class="eat-tank">
+      <div class="liquid1">
+        <svg class="eat" viewBox="0 0 200 100">
+          <defs>
+            <linearGradient id="eatGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0" style="stop-color: #8b4513" />
+              <stop offset="1" style="stop-color: #8b4513" />
+            </linearGradient>
+          </defs>
+          <path
+            fill="url(#eatGradient)"
+            d="
+            M 0,0 v 100 h 200 v -100 
+          "
+          />
+        </svg>
+      </div>
+
+      <div class="indicator1" data-value="75"></div>
+      <div class="indicator1" data-value="50"></div>
+      <div class="indicator1" data-value="25"></div>
+      <div id="hc1"></div>
+    </div>
+    <div id="clock"></div>
+    <!-- anh va gif -->
+    <img src="img/dongho.png" class="dongho-png" />
+    <img src="img/logoKMA.png" class="logoKMA-png" />
+    <img src="img/grain.png" class="grain-png" />
+    <img src="img/ca.gif" class="ca-gif" />
+    <img src="img/tp.png" class="tp-png" />
+    <img src="img/find.png" class="ts-png" />
+    <img src="img/led.gif" class="led-gif" />
+    <img src="img/water.gif" class="water-gif" />
+    <img src="img/bot.gif" class="bot-gif" />
+    <img src="img/fan.png" id="fanShow" />
+    <img src="img/PumpIn.png" id="PumpInShow" />
+    <img src="img/sun.png" id="sunShow" />
+    <img src="img/sunset.png" id="sunsetShow" />
+    <img src="img/sunrise.png" id="sunriseShow" />
+    <img src="img/deep.png" id="deepShow" />
+    <img src="img/moon.png" id="moonShow" />
+    <img src="img/glow.png" id="glowShow" />
+    <div class="light-control">
+      <div class="light" onclick="highlight(this, 'Daylight')">Daylight</div>
+      <div class="light" onclick="highlight(this, 'Moonlight')">Moonlight</div>
+      <div class="light" onclick="highlight(this, 'Sunrise')">Sunrise</div>
+      <div class="light" onclick="highlight(this, 'Sunset')">Sunset</div>
+      <div class="light" onclick="highlight(this, 'Deepwater')">Deepwater</div>
+      <div class="light" onclick="highlight(this, 'Glow light')">
+        Glow light
+      </div>
+    </div>
+    <div class="pump-control">
+      <div class="pump" onclick="highpump(this, 'Slow')">Slow</div>
+      <div class="pump" onclick="highpump(this, 'Average')">Average</div>
+      <div class="pump" onclick="highpump(this, 'Fast')">Fast</div>
+    </div>
+    <!-- main js -->
+    <script src="./js/app.js"></script>
+    <script src="./js/server.js"></script>
+  </body>
+</html>
