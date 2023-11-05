@@ -293,14 +293,14 @@ window.addEventListener("load", (event) => {
 const timer1Element = document.getElementById('timer1');
 const toggle5 = document.querySelector('.switch5 input');
 
-let timer1Time = 10; // 10 seconds
+let timer1Time = 60; // 10 seconds
 let timerRunning1 = false;
 let interval1;
 
 const timer2Element = document.getElementById('timer2');
 const toggle6 = document.querySelector('.switch6 input');
 
-let timer2Time = 20; 
+let timer2Time = 400; 
 let timerRunning2 = false;
 let interval2;
 
@@ -333,7 +333,7 @@ function toggleSwitch5() {
           const topic = 'esp32/feedTimer';
           const message = 'timer1 done';
           mqttClient.publish(topic, message, { qos: 0 });
-          timer1Time = 10;
+          timer1Time = 60;
           updateTimer();
         }
       }, 1000);
@@ -342,7 +342,7 @@ function toggleSwitch5() {
     clearInterval(interval1);
     timerRunning1 = false;
     // Reset thời gian khi công tắc được tắt
-    timer1Time = 10; // Đặt lại thời gian
+    timer1Time = 60; // Đặt lại thời gian
     updateTimer();
   }
 }
@@ -362,7 +362,7 @@ function toggleSwitch6() {
           const topic = 'esp32/feedTimer';
           const message = 'timer2 done';
           mqttClient.publish(topic, message, { qos: 0 });
-          timer2Time = 20; // Sửa lại tại đây
+          timer2Time = 400; // Sửa lại tại đây
           update2Timer(); // Sửa đúng tại đây
         }
       }, 1000);
@@ -371,7 +371,7 @@ function toggleSwitch6() {
     clearInterval(interval2);
     timerRunning2 = false;
     // Reset thời gian khi công tắc được tắt
-    timer2Time = 20; // Đặt lại thời gian
+    timer2Time = 400; // Đặt lại thời gian
     update2Timer(); // Sửa đúng tại đây
   }
 }
