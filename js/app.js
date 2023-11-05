@@ -8,7 +8,7 @@ window.addEventListener("load", (event) => {
 function connectToBroker() {
   const clientId = "client" + Math.random().toString(36).substring(7);
 
-  const host = "wss://broker.emqx.io:8083/mqtt";
+  const host = "wss://broker.emqx.io:8883/mqtt";
 
   const options = {
     keepalive: 60,
