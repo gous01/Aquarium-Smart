@@ -375,15 +375,3 @@ function toggleSwitch6() {
     update2Timer(); // Sửa đúng tại đây
   }
 }
-const password = process.env.PASSWORD;
-
-const loginForm = prompt("Enter the password:");
-
-if (loginForm === password) {
-  // Mật khẩu đúng
-  alert("Access granted. You can view the website.");
-} else {
-  // Mật khẩu sai
-  alert("Access denied. Incorrect password.");
-  // Tải lại trang hoặc chuyển hướng đến trang khác
-}
