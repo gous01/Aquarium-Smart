@@ -90,9 +90,9 @@ function connectToBroker() {
     const turbidityStatus = document.getElementById("turbidityStatus");
 
     if (info.tempTS < 15) {
-      turbidityStatus.innerHTML = "Độ đục của nước ở mức thấp.";
+      turbidityStatus.innerHTML = "Nước đang có độ trong cao .";
     } else if (info.tempTS >= 15 && info.tempTS <= 35) {
-      turbidityStatus.innerHTML = "Độ đục của nước thích hợp.";
+      turbidityStatus.innerHTML = "Chất lượng nước tiêu chuẩn .";
     } else if (info.tempTS > 35) {
       turbidityStatus.innerHTML = "Độ đục của nước ở mức cao.";
     } else {
