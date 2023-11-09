@@ -36,8 +36,6 @@ function connectToBroker() {
   });
 
   var info = {};
-
-  // Received
   mqttClient.on("message", (topic, message, packet) => {
     console.log("Client connected:" + clientId);
     console.log(message);
@@ -58,10 +56,10 @@ function connectToBroker() {
     }
 
     const nhietdo = document.getElementById("nhietdo");
-    nhietdo.innerHTML = info.tempC.toFixed(1); // Làm tròn nhiệt độ đến 1 chữ số sau dấu phẩy
+    nhietdo.innerHTML = info.tempC.toFixed(1); 
 
     const doduc = document.getElementById("doduc");
-    doduc.innerHTML = info.tempTS.toFixed(1); // Làm tròn nhiệt độ đến 1 chữ số sau dấu phẩy
+    doduc.innerHTML = info.tempTS.toFixed(1); 
 
     const hc1 = document.getElementById("hc1");
     hc1.innerHTML = info.hc1.toFixed(0) + "%";
@@ -86,7 +84,6 @@ function connectToBroker() {
     const hc2Element = document.querySelector("#hc2");
     hc2Element.style.bottom = hc2Value + "%";
 
-    // Kiểm tra và hiển thị cảnh báo độ turbidity
     const turbidityStatus = document.getElementById("turbidityStatus");
 
     if (info.tempTS < 15) {
@@ -96,10 +93,9 @@ function connectToBroker() {
     } else if (info.tempTS > 35) {
       turbidityStatus.innerHTML = "Độ đục của nước ở mức cao.";
     } else {
-      turbidityStatus.innerHTML = ""; // Nếu không nằm trong bất kỳ khoảng nào
+      turbidityStatus.innerHTML = ""; 
     }
 
-    // Kiểm tra và hiển thị trạng thái nhiệt độ
     const temperatureStatus = document.getElementById("temperatureStatus");
     if (info.tempC < 24) {
       temperatureStatus.innerHTML = "Nhiệt độ của nước ở mức thấp.";
@@ -115,7 +111,7 @@ function updateClock() {
   const clockElement = document.getElementById("clock");
   const now = new Date();
   const day = now.getDate();
-  const month = now.getMonth() + 1; // Tháng bắt đầu từ 0
+  const month = now.getMonth() + 1; 
   const year = now.getFullYear();
   const hours = now.getHours().toString().padStart(2, "0");
   const minutes = now.getMinutes().toString().padStart(2, "0");
@@ -124,52 +120,36 @@ function updateClock() {
   clockElement.textContent = dateTimeString;
 }
 
-// Cập nhật đồng hồ mỗi phút (60.000 miligiây)
 setInterval(updateClock, 60000);
-
-// Đảm bảo đồng hồ được cập nhật ngay khi trang web được tải
 updateClock();
-
-function SaveData(str) {
-  connection.invoke("SaveData", str).catch(function (err) {
-    console.error(err);
-  });
-}
 
 function toggleSwitch1() {
   const switchElement = document.querySelector(".switch1 input");
   const isChecked = switchElement.checked;
-  // Tùy thuộc vào isChecked, gửi thông điệp ON hoặc OFF đến MQTT broker
-  const topic = "esp32/statusOxygen"; // Chủ đề MQTT bạn muốn gửi đến
+  const topic = "esp32/statusOxygen"; 
   const message = isChecked ? "1" : "0";
-  mqttClient.publish(topic, message, { qos: 0 }); // Gửi thông điệp đến MQTT broker
+  mqttClient.publish(topic, message, { qos: 0 });
 }
 
 function toggleSwitch4() {
   const switchElement = document.querySelector(".switch4 input");
   const isChecked = switchElement.checked;
-  // Tùy thuộc vào isChecked, gửi thông điệp ON hoặc OFF đến MQTT broker
-  const topic = "esp32/statusFeeding"; // Chủ đề MQTT bạn muốn gửi đến
+  const topic = "esp32/statusFeeding";
   const message = isChecked ? "1" : "0";
-  mqttClient.publish(topic, message, { qos: 0 }); // Gửi thông điệp đến MQTT broker
+  mqttClient.publish(topic, message, { qos: 0 }); 
 }
 
-// Tạo biến để theo dõi trạng thái của switch
 var isSwitch3On = false;
 var highlightedLight = null;
 
-// Khi người dùng nhấn vào switch
-// Hàm xử lý khi nhấn vào switch
 function toggleSwitch3() {
   var switchElement = document.querySelector(".switch3 input");
   isSwitch3On = switchElement.checked;
 
-  // Gửi thông điệp MQTT với trạng thái "0" khi switch chuyển sang tắt
   const topic = "esp32/statusLed";
   const message = isSwitch3On ? "1" : "0";
   mqttClient.publish(topic, message, { qos: 0 });
 
-  // Đặt lại trạng thái của các chữ cái khi switch chuyển sang off
   if (!isSwitch3On) {
     if (highlightedLight) {
       highlightedLight.classList.remove("highlighted");
@@ -178,7 +158,6 @@ function toggleSwitch3() {
   }
 }
 
-// Hàm xử lý khi nhấn vào chữ cái
 function highlight(element, lightName) {
   if (isSwitch3On) {
     const lights = document.querySelectorAll(".light");
@@ -190,7 +169,6 @@ function highlight(element, lightName) {
     element.classList.add("highlighted");
     highlightedLight = element;
 
-    // Gửi thông điệp MQTT với tên của chữ được sáng
     const topic = "esp32/statusLed";
     const message = isSwitch3On ? `1,${lightName}` : "0";
     mqttClient.publish(topic, message, { qos: 0 });
@@ -200,7 +178,6 @@ function highlight(element, lightName) {
 var isSwitch2On = false;
 var highpumpedPump = null;
 
-// Hàm xử lý khi nhấn vào switch
 function toggleSwitch2() {
   var switchElement = document.querySelector(".switch2 input");
   isSwitch2On = switchElement.checked;
@@ -213,8 +190,6 @@ function toggleSwitch2() {
       highpumpedPump = null;
     }
 
-    // Đặt lại trạng thái của các bơm ở đây
-    // Ví dụ: Tắt tất cả các bơm
     const pumps = document.querySelectorAll(".pump");
     pumps.forEach((pump) => {
       pump.classList.remove("highpumped");
@@ -229,11 +204,9 @@ function updatePointer() {
   const doducElement = document.getElementById("doduc");
   const switchElement = document.querySelector(".switch2 input");
 
-  // Lấy giá trị của phần tử "doduc"
-  const doducValue = parseFloat(doducElement.innerHTML); // Chuyển giá trị thành số
+  const doducValue = parseFloat(doducElement.innerHTML); 
 
   if (!switchElement.checked) {
-    // Kiểm tra trạng thái của switch2 (off)
     pointer.style.display = "block";
     if (doducValue < 30) {
       pointer.style.left = "1000px";
@@ -253,10 +226,8 @@ function updatePointer() {
   }
 }
 
-// Đảm bảo rằng trạng thái ban đầu của con trỏ phụ thuộc vào toggleSwitch2
 updatePointer();
 setInterval(updatePointer, 1000);
-// Hàm xử lý khi nhấn vào chữ cái của bơm
 function highpump(element, pumpName) {
   if (isSwitch2On) {
     const pumps = document.querySelectorAll(".pump");
@@ -293,7 +264,7 @@ window.addEventListener("load", (event) => {
 const timer1Element = document.getElementById('timer1');
 const toggle5 = document.querySelector('.switch5 input');
 
-let timer1Time = 60; // 10 seconds
+let timer1Time = 60; 
 let timerRunning1 = false;
 let interval1;
 
@@ -328,7 +299,7 @@ function toggleSwitch5() {
           updateTimer();
         } else {
           clearInterval(interval1);
-          toggle5.checked = false; // Tắt switch khi hết đếm ngược
+          toggle5.checked = false;
           timerRunning1 = false;
           const topic = 'esp32/feedTimer';
           const message = 'timer1 done';
@@ -341,8 +312,7 @@ function toggleSwitch5() {
   } else {
     clearInterval(interval1);
     timerRunning1 = false;
-    // Reset thời gian khi công tắc được tắt
-    timer1Time = 60; // Đặt lại thời gian
+    timer1Time = 60;
     updateTimer();
   }
 }
@@ -354,24 +324,23 @@ function toggleSwitch6() {
       interval2 = setInterval(function () {
         if (timer2Time > 0) {
           timer2Time--;
-          update2Timer(); // Sửa đúng tại đây
+          update2Timer();
         } else {
           clearInterval(interval2);
-          toggle6.checked = false; // Tắt switch khi hết đếm ngược
+          toggle6.checked = false;
           timerRunning2 = false;
           const topic = 'esp32/feedTimer';
           const message = 'timer2 done';
           mqttClient.publish(topic, message, { qos: 0 });
-          timer2Time = 300; // Sửa lại tại đây
-          update2Timer(); // Sửa đúng tại đây
+          timer2Time = 300;
+          update2Timer(); 
         }
       }, 1000);
     }
   } else {
     clearInterval(interval2);
     timerRunning2 = false;
-    // Reset thời gian khi công tắc được tắt
-    timer2Time = 300; // Đặt lại thời gian
-    update2Timer(); // Sửa đúng tại đây
+    timer2Time = 300; 
+    update2Timer(); 
   }
 }
