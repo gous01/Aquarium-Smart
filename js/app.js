@@ -84,7 +84,8 @@ function connectToBroker() {
 
     const hc2Element = document.querySelector("#hc2");
     hc2Element.style.bottom = hc2Value + "%";
-
+    
+    modePump = info.modePump;
     const modePump = document.getElementById("modePump");
     modePump.innerHTML = info.modePump;
 
