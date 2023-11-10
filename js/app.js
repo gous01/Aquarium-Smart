@@ -1,4 +1,5 @@
 let mqttClient;
+let modePump;
 var topic = "esp32/DataSensor";
 window.addEventListener("load", (event) => {
   connectToBroker();
@@ -205,18 +206,18 @@ function toggleSwitch2() {
 function updatePointer() {
   const pointer = document.getElementById("turbidity-pointer");
   const switchElement = document.querySelector(".switch2 input");
-  
+
   if (!switchElement.checked) {
     pointer.style.display = "block";
-    if (info.modePump  == 1) {
+    if (modePump  == 1) {
       pointer.style.left = "1000px";
       pointer.style.top = "190px";
       pointer.style.filter = "brightness(1)";
-    } else if (info.modePump  == 2) {
+    } else if (modePump == 2) {
       pointer.style.left = "1000px";
       pointer.style.top = "240px";
       pointer.style.filter = "brightness(1)";
-    } else if (info.modePump  == 3) {
+    } else if (modePump  == 3) {
       pointer.style.left = "1000px";
       pointer.style.top = "310px";
       pointer.style.filter = "brightness(1)";
