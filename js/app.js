@@ -1,5 +1,4 @@
 let mqttClient;
-let modePump;
 var topic = "esp32/DataSensor";
 window.addEventListener("load", (event) => {
   connectToBroker();
@@ -84,10 +83,6 @@ function connectToBroker() {
 
     const hc2Element = document.querySelector("#hc2");
     hc2Element.style.bottom = hc2Value + "%";
-    
-    modePump = info.modePump;
-    const modePump = document.getElementById("modePump");
-    modePump.innerHTML = info.modePump;
 
     const turbidityStatus = document.getElementById("turbidityStatus");
 
@@ -206,19 +201,22 @@ function toggleSwitch2() {
 
 function updatePointer() {
   const pointer = document.getElementById("turbidity-pointer");
+  const doducElement = document.getElementById("doduc");
   const switchElement = document.querySelector(".switch2 input");
+
+  const doducValue = parseFloat(doducElement.innerHTML); 
 
   if (!switchElement.checked) {
     pointer.style.display = "block";
-    if (modePump  == 1) {
+    if (doducValue <= 10) {
       pointer.style.left = "1000px";
       pointer.style.top = "190px";
       pointer.style.filter = "brightness(1)";
-    } else if (modePump == 2) {
+    } else if (doducValue > 10 && doducValue <= 20) {
       pointer.style.left = "1000px";
       pointer.style.top = "240px";
       pointer.style.filter = "brightness(1)";
-    } else if (modePump  == 3) {
+    } else if (doducValue > 20 && doducValue <= 100) {
       pointer.style.left = "1000px";
       pointer.style.top = "310px";
       pointer.style.filter = "brightness(1)";
