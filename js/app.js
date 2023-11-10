@@ -1,4 +1,5 @@
 let mqttClient;
+let modeAutoPump;
 var topic = "esp32/DataSensor";
 window.addEventListener("load", (event) => {
   connectToBroker();
@@ -54,6 +55,9 @@ function connectToBroker() {
     } else if (info.statusFan == 1) {
       fanShow.style.filter = "brightness(1)";
     }
+
+    modeAutoPump = info.modeAutoPump;
+    updatePointer(); 
 
     const nhietdo = document.getElementById("nhietdo");
     nhietdo.innerHTML = info.tempC.toFixed(1); 
@@ -208,15 +212,15 @@ function updatePointer() {
 
   if (!switchElement.checked) {
     pointer.style.display = "block";
-    if (doducValue <= 10) {
+    if (modeAutoPump == 1) {
       pointer.style.left = "1000px";
       pointer.style.top = "190px";
       pointer.style.filter = "brightness(1)";
-    } else if (doducValue > 10 && doducValue <= 20) {
+    } else if (modeAutoPump == 2) {
       pointer.style.left = "1000px";
       pointer.style.top = "240px";
       pointer.style.filter = "brightness(1)";
-    } else if (doducValue > 20 && doducValue <= 100) {
+    } else if (modeAutoPump == 3) {
       pointer.style.left = "1000px";
       pointer.style.top = "310px";
       pointer.style.filter = "brightness(1)";
