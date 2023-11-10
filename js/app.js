@@ -86,11 +86,11 @@ function connectToBroker() {
 
     const turbidityStatus = document.getElementById("turbidityStatus");
 
-    if (info.tempTS < 15) {
+    if (info.tempTS < 10) {
       turbidityStatus.innerHTML = "Nước đang có độ trong cao .";
-    } else if (info.tempTS >= 15 && info.tempTS <= 35) {
+    } else if (info.tempTS >= 10 && info.tempTS <= 20) {
       turbidityStatus.innerHTML = "Chất lượng nước tiêu chuẩn .";
-    } else if (info.tempTS > 35) {
+    } else if (info.tempTS > 20) {
       turbidityStatus.innerHTML = "Độ đục của nước ở mức cao.";
     } else {
       turbidityStatus.innerHTML = ""; 
@@ -208,15 +208,15 @@ function updatePointer() {
 
   if (!switchElement.checked) {
     pointer.style.display = "block";
-    if (doducValue < 30) {
+    if (doducValue <= 10) {
       pointer.style.left = "1000px";
       pointer.style.top = "190px";
       pointer.style.filter = "brightness(1)";
-    } else if (doducValue >= 30 && doducValue <= 50) {
+    } else if (doducValue > 10 && doducValue <= 20) {
       pointer.style.left = "1000px";
       pointer.style.top = "240px";
       pointer.style.filter = "brightness(1)";
-    } else if (doducValue > 50 && doducValue <= 100) {
+    } else if (doducValue > 20 && doducValue <= 100) {
       pointer.style.left = "1000px";
       pointer.style.top = "310px";
       pointer.style.filter = "brightness(1)";
