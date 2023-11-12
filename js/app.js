@@ -90,11 +90,11 @@ function connectToBroker() {
 
     const turbidityStatus = document.getElementById("turbidityStatus");
 
-    if (info.tempTS < 10) {
+    if (info.tempTS >= 7 && info.tempTS < 7) {
       turbidityStatus.innerHTML = "Nước đang có độ trong cao .";
-    } else if (info.tempTS >= 10 && info.tempTS <= 20) {
+    } else if (info.tempTS >= 7 && info.tempTS <= 14) {
       turbidityStatus.innerHTML = "Chất lượng nước tiêu chuẩn .";
-    } else if (info.tempTS > 20) {
+    } else if (info.tempTS > 14) {
       turbidityStatus.innerHTML = "Độ đục của nước ở mức cao.";
     } else {
       turbidityStatus.innerHTML = ""; 
