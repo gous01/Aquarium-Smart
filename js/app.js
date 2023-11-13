@@ -268,14 +268,14 @@ window.addEventListener("load", (event) => {
 const timer1Element = document.getElementById('timer1');
 const toggle5 = document.querySelector('.switch5 input');
 
-let timer1Time = 60; 
+let timer1Time = 30; 
 let timerRunning1 = false;
 let interval1;
 
 const timer2Element = document.getElementById('timer2');
 const toggle6 = document.querySelector('.switch6 input');
 
-let timer2Time = 300; 
+let timer2Time = 21600; 
 let timerRunning2 = false;
 let interval2;
 
@@ -308,7 +308,7 @@ function toggleSwitch5() {
           const topic = 'esp32/feedTimer';
           const message = 'timer1 done';
           mqttClient.publish(topic, message, { qos: 0 });
-          timer1Time = 60;
+          timer1Time = 30;
           updateTimer();
         }
       }, 1000);
@@ -316,7 +316,7 @@ function toggleSwitch5() {
   } else {
     clearInterval(interval1);
     timerRunning1 = false;
-    timer1Time = 60;
+    timer1Time = 30;
     updateTimer();
   }
 }
@@ -336,7 +336,7 @@ function toggleSwitch6() {
           const topic = 'esp32/feedTimer';
           const message = 'timer2 done';
           mqttClient.publish(topic, message, { qos: 0 });
-          timer2Time = 300;
+          timer2Time = 21600;
           update2Timer(); 
         }
       }, 1000);
@@ -344,7 +344,7 @@ function toggleSwitch6() {
   } else {
     clearInterval(interval2);
     timerRunning2 = false;
-    timer2Time = 300; 
+    timer2Time = 21600; 
     update2Timer(); 
   }
 }
