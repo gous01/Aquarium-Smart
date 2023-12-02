@@ -90,7 +90,7 @@ function connectToBroker() {
 
     const turbidityStatus = document.getElementById("turbidityStatus");
 
-    if (info.tempTS >= 7 && info.tempTS < 7) {
+    if (info.tempTS >= 0 && info.tempTS < 7) {
       turbidityStatus.innerHTML = "Nước đang có độ trong cao .";
     } else if (info.tempTS >= 7 && info.tempTS <= 14) {
       turbidityStatus.innerHTML = "Chất lượng nước tiêu chuẩn .";
